@@ -2,27 +2,17 @@
   /* Brand */
   --primary: #00A651;
   --primary-hover: #008040;
-  --secondary: #002855;
-  --secondary-hover: #021f42;
 
   /* Backgrounds */
   --white: #ffffff;
-  --bg-light: #F4F7FA;
   --bg-auth: #3b4b5e;
-  --header-bg: #002855;
-  --footer-bg: #001835;
 
   /* Borders */
-  --border-color: #EEF2F7;
-  --border-input: #D4DCE8;
 
   /* Text */
-  --text-dark: #002855;
-  --text-muted: #6b7280;
   --text-label: #6C757D;
   --text-input: #495057;
   --text-gray: #555;
-  --text-gray-400: #9ca3af;
   --text-subtle: #8f959d;
   --text-hint: #a0a5ab;
 
@@ -30,7 +20,66 @@
   --check-icon: #52d087;
   --badge-orange: #f97316;
 
+  /* Theme-aware surfaces & text */
+
   /* Typography */
   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-family-alt: 'Inter', sans-serif;
+
+  /* Liquid glass logo tiles (same in both themes) */
+  --logo-chip: linear-gradient(150deg, rgba(255, 255, 255, 0.42), rgba(226, 237, 252, 0.24));
+  --logo-rim: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(255, 255, 255, 0.2) 60%, rgba(255, 255, 255, 0.95) 100%);
+  --logo-glass-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -10px 18px -8px rgba(150, 190, 255, 0.4), inset 0 0 22px rgba(255, 255, 255, 0.12);
+  --logo-sheen: radial-gradient(120% 70% at 25% 0%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 60%);
+
+  /* Dark is the default theme to avoid flashbangs*/
+  --header-bg: #001835;
+  --footer-bg: #000f22;
+  --secondary: #0d3b73;
+  --secondary-hover: #0a2f5c;
+  --bg-light: #0b1424;
+  --page-bg: #0b1424;
+  --surface: #121f35;
+  --border-color: #1e2e49;
+  --border-input: #2e4060;
+  --text-dark: #e8eef8;
+  --text-muted: #9aa7bb;
+  --text-gray-400: #8795ab;
+  --text-soft: rgba(232, 238, 248, 0.65);
+  --text-label-soft: rgba(232, 238, 248, 0.6);
+  --icon-bg: rgba(255, 255, 255, 0.08);
+  --icon-fg: #8fb4e8;
+  --pill-hover-border: rgba(232, 238, 248, 0.45);
+  --shadow-hover: rgba(0, 0, 0, 0.8);
+  --shadow-nav: 0 6px 18px -2px rgba(0, 0, 0, 0.7), 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  --shadow-panel: 0 -10px 40px -8px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-soft: 0 4px 16px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --brands-bg: #0b1424;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --header-bg: #002855;
+  --footer-bg: #001835;
+  --secondary: #002855;
+  --secondary-hover: #021f42;
+  --bg-light: #F4F7FA;
+  --page-bg: #ffffff;
+  --surface: #ffffff;
+  --border-color: #EEF2F7;
+  --border-input: #D4DCE8;
+  --text-dark: #002855;
+  --text-muted: #6b7280;
+  --text-gray-400: #9ca3af;
+  --text-soft: rgba(0, 40, 85, 0.6);
+  --text-label-soft: rgba(0, 40, 85, 0.55);
+  --icon-bg: rgba(0, 40, 85, 0.1);
+  --icon-fg: #002855;
+  --pill-hover-border: rgba(0, 40, 85, 0.4);
+  --shadow-hover: rgba(0, 40, 85, 0.4);
+  --shadow-nav: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-panel: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --brands-bg: #001835;
+  color-scheme: light;
 }

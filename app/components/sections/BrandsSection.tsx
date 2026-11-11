@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 const BRANDS = [
   { slug: "abarth",        name: "Abarth" },
   { slug: "alfa-romeo",    name: "Alfa Romeo" },
@@ -40,15 +42,19 @@ const BRANDS = [
 ];
 
 const TRACK = [...BRANDS, ...BRANDS];
+const LOOP_SECONDS = 75; // one full pass over the brand list, same pace as the original CSS ticker
 
 function BrandTag({ slug, name }: { slug: string; name: string }) {
   return (
     <div className="flex flex-col items-center gap-2 px-6 cursor-pointer select-none group">
-      <img
-        src={`https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/${slug}.png`}
-        alt={name}
-        className="w-12 h-12 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200"
-      />
+      <div className="glass-tile w-[4.5rem] h-[4.5rem] rounded-2xl flex items-center justify-center opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200">
+        <img
+          src={`https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/${slug}.png`}
+          alt={name}
+          draggable={false}
+          className="relative w-12 h-12 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]"
+        />
+      </div>
       <span className="text-[rgba(255,255,255,0.5)] font-semibold text-xs tracking-wider whitespace-nowrap group-hover:text-white transition-colors duration-200">
         {name}
       </span>
@@ -57,15 +63,110 @@ function BrandTag({ slug, name }: { slug: string; name: string }) {
 }
 
 export function BrandsSection() {
-  return (
-    <section className="py-20 bg-[var(--footer-bg)] overflow-hidden relative">
-      <style>{`
-        @keyframes ticker {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+  const track = useRef<HTMLDivElement>(null);
+  const offset = useRef(0); // px the track is shifted left; wraps every half-width (one copy of the list)
+  const velocity = useRef(0); // px/s of manual "throw" momentum
+  const hovering = useRef(false);
+  const dragging = useRef(false);
+  const lastX = useRef(0);
+  const lastT = useRef(0);
+
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    let raf = 0;
+    let last = performance.now();
+
+    const tick = (now: number) => {
+      const dt = Math.min(64, now - last) / 1000;
+      last = now;
+      const half = el.scrollWidth / 2;
+      if (half > 0) {
+        let move = 0;
+        if (!dragging.current) {
+          move += velocity.current * dt;
+          velocity.current *= Math.pow(0.04, dt); // momentum decays in ~1s
+          if (Math.abs(velocity.current) < 8) velocity.current = 0;
+          if (!hovering.current && velocity.current === 0) move += (half / LOOP_SECONDS) * dt;
         }
-        .brands-track { animation: ticker 75s linear infinite; }
-        .brands-track:hover { animation-play-state: paused; }
+        offset.current = (((offset.current + move) % half) + half) % half;
+        el.style.transform = `translate3d(${-offset.current}px,0,0)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    dragging.current = true;
+    velocity.current = 0;
+    lastX.current = e.clientX;
+    lastT.current = performance.now();
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragging.current) return;
+    const now = performance.now();
+    const dx = e.clientX - lastX.current;
+    offset.current -= dx;
+    const dtMs = Math.max(1, now - lastT.current);
+    velocity.current = -(dx / dtMs) * 1000 * 0.6 + velocity.current * 0.4;
+    lastX.current = e.clientX;
+    lastT.current = now;
+  };
+  const endDrag = () => {
+    dragging.current = false;
+    if (performance.now() - lastT.current > 80) velocity.current = 0; // held still before release: no throw
+  };
+  const onWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    const d = e.deltaX || (e.shiftKey ? e.deltaY : 0);
+    if (d) offset.current += d;
+  };
+
+  return (
+    <section className="py-20 bg-[var(--brands-bg)] overflow-hidden relative">
+      <svg width="0" height="0" className="absolute" aria-hidden focusable="false">
+        <filter id="liquid-glass" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="4" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+      <style>{`
+        .brands-scroller { touch-action: pan-y; cursor: grab; }
+        .brands-scroller:active { cursor: grabbing; }
+
+        /* Liquid glass tile */
+        .glass-tile {
+          position: relative;
+          background: var(--logo-chip);
+          -webkit-backdrop-filter: blur(14px) saturate(1.9) brightness(1.15);
+          backdrop-filter: blur(14px) saturate(1.9) brightness(1.15);
+          backdrop-filter: url(#liquid-glass) blur(6px) saturate(1.9) brightness(1.15);
+          box-shadow: var(--logo-glass-shadow);
+        }
+        /* bright refractive rim: light catches top-left and bottom-right edges */
+        .glass-tile::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 2px;
+          background: var(--logo-rim);
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+          pointer-events: none;
+        }
+        /* specular highlight */
+        .glass-tile::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: var(--logo-sheen);
+          pointer-events: none;
+        }
       `}</style>
 
       {/* Background glows */}
@@ -81,10 +182,21 @@ export function BrandsSection() {
           WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
         }}
       >
-        <div className="brands-track flex w-max gap-3">
-          {TRACK.map((brand, i) => (
-            <BrandTag key={i} slug={brand.slug} name={brand.name} />
-          ))}
+        <div
+          className="brands-scroller select-none"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onPointerEnter={(e) => { if (e.pointerType === "mouse") hovering.current = true; }}
+          onPointerLeave={(e) => { if (e.pointerType === "mouse") hovering.current = false; }}
+          onWheel={onWheel}
+        >
+          <div ref={track} className="flex w-max gap-3 will-change-transform">
+            {TRACK.map((brand, i) => (
+              <BrandTag key={i} slug={brand.slug} name={brand.name} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

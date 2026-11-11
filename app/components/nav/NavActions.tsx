@@ -1,8 +1,10 @@
 import { Link } from "react-router";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function NavActions() {
   return (
     <div className="flex items-center gap-3">
+      <ThemeToggle />
       <Link
         to="/belepes"
         className="flex items-center gap-2 text-sm font-medium text-white/80 border border-white/20 px-4 py-2 rounded-lg hover:text-white hover:border-white/40 transition-colors no-underline"

@@ -26,7 +26,7 @@ function IconClock() {
 }
 
 const inputCls =
-  "w-full border border-[var(--border-input)] rounded-xl px-4 py-3 text-sm text-[var(--text-dark)] font-[inherit] outline-none transition-all focus:border-[var(--primary)] focus:shadow-[0_0_0_2px_rgba(0,166,81,0.15)] bg-white";
+  "w-full border border-[var(--border-input)] rounded-xl px-4 py-3 text-sm text-[var(--text-dark)] font-[inherit] outline-none transition-all focus:border-[var(--primary)] focus:shadow-[0_0_0_2px_rgba(0,166,81,0.15)] bg-[var(--surface)] placeholder:text-[var(--text-gray-400)]";
 
 export function ContactSection() {
   return (
@@ -41,13 +41,13 @@ export function ContactSection() {
         >
           <p className="text-[var(--primary)] font-bold text-sm uppercase tracking-wider mb-2">Kapcsolat</p>
           <h2 className="text-4xl font-black text-[var(--text-dark)] mb-6">Látogass el hozzánk!</h2>
-          <p className="text-[rgba(0,40,85,0.6)] mb-10">
+          <p className="text-[var(--text-soft)] mb-10">
             Szakértő munkatársaink készséggel várnak, segítenek megtalálni az igényeidnek megfelelő járművet és elintéznek minden adminisztrációt.
           </p>
 
           <div className="flex flex-col gap-5">
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[rgba(0,40,85,0.1)] text-[var(--secondary)] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[var(--icon-bg)] text-[var(--icon-fg)] flex items-center justify-center shrink-0">
                 <IconLocation />
               </div>
               <div>
@@ -56,7 +56,7 @@ export function ContactSection() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[rgba(0,40,85,0.1)] text-[var(--secondary)] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[var(--icon-bg)] text-[var(--icon-fg)] flex items-center justify-center shrink-0">
                 <IconEmail />
               </div>
               <div>
@@ -65,7 +65,7 @@ export function ContactSection() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[rgba(0,40,85,0.1)] text-[var(--secondary)] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[var(--icon-bg)] text-[var(--icon-fg)] flex items-center justify-center shrink-0">
                 <IconClock />
               </div>
               <div>
@@ -78,7 +78,7 @@ export function ContactSection() {
 
         {/* Form */}
         <motion.div
-          className="bg-white border border-[var(--border-color)] rounded-2xl p-8 shadow-sm"
+          className="bg-[var(--surface)] border border-[var(--border-color)] rounded-2xl p-8 shadow-[var(--shadow-soft)]"
           initial={{ opacity: 0, x: 32 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -88,20 +88,20 @@ export function ContactSection() {
           <form>
             <div className="flex flex-col sm:flex-row gap-4 mb-4">
               <div className="flex-1">
-                <label className="block text-xs font-bold text-[rgba(0,40,85,0.55)] mb-1.5">Teljes név</label>
+                <label className="block text-xs font-bold text-[var(--text-label-soft)] mb-1.5">Teljes név</label>
                 <input type="text" className={inputCls} placeholder="Kovács Péter" />
               </div>
               <div className="flex-1">
-                <label className="block text-xs font-bold text-[rgba(0,40,85,0.55)] mb-1.5">Telefonszám</label>
+                <label className="block text-xs font-bold text-[var(--text-label-soft)] mb-1.5">Telefonszám</label>
                 <input type="tel" className={inputCls} placeholder="+36 30 123 4567" />
               </div>
             </div>
             <div className="mb-4">
-              <label className="block text-xs font-bold text-[rgba(0,40,85,0.55)] mb-1.5">E-mail cím</label>
+              <label className="block text-xs font-bold text-[var(--text-label-soft)] mb-1.5">E-mail cím</label>
               <input type="email" className={inputCls} placeholder="kovacs.peter@email.hu" />
             </div>
             <div className="mb-6">
-              <label className="block text-xs font-bold text-[rgba(0,40,85,0.55)] mb-1.5">Üzenet</label>
+              <label className="block text-xs font-bold text-[var(--text-label-soft)] mb-1.5">Üzenet</label>
               <textarea className={`${inputCls} resize-y`} rows={4} placeholder="Milyen autó iránt érdeklődsz?" />
             </div>
             <button
