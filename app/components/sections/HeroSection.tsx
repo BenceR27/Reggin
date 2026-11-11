@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { motion } from "framer-motion";
+import { HeroLogo } from "./HeroLogo";
 import { BRANDS, FUELS, PRICES } from "./carsData";
 
 export interface SearchState {
@@ -16,15 +18,17 @@ const selectCls =
   "w-full border border-[var(--border-input)] rounded-lg px-3 py-2.5 text-sm text-[var(--text-dark)] bg-[var(--bg-light)] outline-none focus:border-[var(--primary)] transition-colors";
 
 export function HeroSection({ search, onChange }: HeroSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
   return (
-    <section className="relative min-h-[70vh] flex items-center">
+    <section ref={sectionRef} className="relative min-h-[70vh] flex items-center">
+      <HeroLogo anchorRef={sectionRef} />
       <div className="absolute inset-0">
         <img
           src="/hero.jpg"
           alt="Autószalon"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-[rgba(0,40,85,0.3)]" />
+        <div className="absolute inset-0 bg-[rgba(0,24,53,0.5)]" />
       </div>
 
       <motion.div
