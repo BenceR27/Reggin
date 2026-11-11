@@ -3,19 +3,6 @@ body { font-family: var(--font-family-alt); background-color: var(--bg-light); c
 a { text-decoration: none; color: inherit; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* NAVBAR */
-.navbar { position: fixed; top: 0; width: 100%; background-color: var(--secondary); z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); height: 64px; }
-.nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-.logo img { height: 40px; background: var(--white); padding: 2px 8px; border-radius: 8px; }
-.desktop-nav { display: flex; gap: 24px; }
-.desktop-nav a { color: rgba(255,255,255,0.75); font-size: 14px; font-weight: 500; transition: color 0.2s; }
-.desktop-nav a:hover, .desktop-nav a.active { color: white; }
-.nav-actions { display: flex; gap: 12px; }
-.btn-login { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 14px;}
-.btn-login:hover { border-color: rgba(255,255,255,0.4); }
-.btn-primary { background: var(--primary); color: white; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;}
-.btn-primary:hover { background: var(--primary-hover); }
-
 /* HERO */
 .hero { position: relative; background: var(--secondary); color: white; padding: 120px 0 80px; overflow: hidden; }
 .hero-bg-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
@@ -76,12 +63,6 @@ a { text-decoration: none; color: inherit; }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(0,166,81,0.15); }
 .btn-submit { width: 100%; background: var(--primary); color: white; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 14px; border: none; cursor: pointer; transition: 0.2s; }
 .btn-submit:hover { background: var(--primary-hover); }
-
-/* FOOTER */
-footer { background: var(--footer-bg); color: white; padding: 32px 20px; }
-.footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-.footer-logo { height: 36px; background: var(--white); border-radius: 8px; padding: 2px 8px; }
-footer p { color: rgba(255,255,255,0.35); font-size: 12px; }
 
 /* RESPONSIVE */
 @media (max-width: 992px) {
