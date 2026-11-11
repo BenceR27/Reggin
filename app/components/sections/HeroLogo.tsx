@@ -34,10 +34,12 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
       const n = nav.getBoundingClientRect();
       const h = hero.getBoundingClientRect();
       const vw = window.innerWidth;
-      const startScale = Math.min(360 / n.width, (vw * 0.7) / n.width);
+      const startScale = Math.min(440 / n.width, (vw * 0.75) / n.width);
       const scrollY = window.scrollY;
       const cx = vw / 2;
-      const cy = h.top + scrollY + (h.height - 96) / 2;
+      const visibleH = Math.min(h.height, window.innerHeight - (h.top + scrollY));
+      const searchBoxH = (document.getElementById("hero-search")?.offsetHeight ?? 130);
+      const cy = h.top + scrollY + (visibleH - searchBoxH) / 2;
       const startX = cx - (n.width * startScale) / 2;
       const startY = cy - (n.height * startScale) / 2;
       setGeo({
