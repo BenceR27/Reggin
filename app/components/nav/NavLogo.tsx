@@ -3,7 +3,7 @@ import { motion, useTransform } from "framer-motion";
 import { logoProgress } from "./logoProgress";
 
 export function NavLogo() {
-  const opacity = useTransform(logoProgress, [0.995, 1], [0, 1]);
+  const opacity = useTransform(logoProgress, (p) => (p >= 0.995 ? 1 : 0));
 
   return (
     <motion.div id="nav-logo" style={{ opacity }} className="flex-shrink-0">
