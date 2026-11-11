@@ -1,0 +1,36 @@
+:root {
+  /* Brand */
+  --primary: #00A651;
+  --primary-hover: #008040;
+  --secondary: #002855;
+  --secondary-hover: #021f42;
+
+  /* Backgrounds */
+  --white: #ffffff;
+  --bg-light: #F4F7FA;
+  --bg-auth: #3b4b5e;
+  --header-bg: #002855;
+  --footer-bg: #001835;
+
+  /* Borders */
+  --border-color: #EEF2F7;
+  --border-input: #D4DCE8;
+
+  /* Text */
+  --text-dark: #002855;
+  --text-muted: #6b7280;
+  --text-label: #6C757D;
+  --text-input: #495057;
+  --text-gray: #555;
+  --text-gray-400: #9ca3af;
+  --text-subtle: #8f959d;
+  --text-hint: #a0a5ab;
+
+  /* Accent */
+  --check-icon: #52d087;
+  --badge-orange: #f97316;
+
+  /* Typography */
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-family-alt: 'Inter', sans-serif;
+}
