@@ -1,13 +1,17 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { Page } from "../components/layout";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Reggin - Használtautó-Kereskedés" },
+    { name: "description", content: "Megbízható használt autó kereskedés Miskolcon." },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  return (
+    <Page>
+      <div className="min-h-screen" />
+    </Page>
+  );
 }
