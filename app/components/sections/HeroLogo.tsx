@@ -8,10 +8,12 @@ interface Geo {
   endX: number;
   endY: number;
   startScale: number;
+  width: number;
+  height: number;
   distance: number;
 }
 
-const ZERO: Geo = { startX: 0, startY: 0, endX: 0, endY: 0, startScale: 1, distance: 400 };
+const ZERO: Geo = { startX: 0, startY: 0, endX: 0, endY: 0, startScale: 1, width: 0, height: 0, distance: 400 };
 
 const smooth = (p: number) => p * p * (3 - 2 * p);
 const easeY = (p: number) => 0.5 * p + 0.5 * smooth(p);
@@ -22,9 +24,13 @@ const SPLIT = "31.25%";
 const LOGO_SRC = "/regginlogo_nobg.png";
 
 // two clipped copies of the same image: the mark pops in first, then the wordmark slides out from behind it
-function SplitLogo({ className, style }: { className?: string; style?: MotionStyle }) {
+// laid out at the hero size (`k` = hero size / navbar size) so the browser paints it sharp, then scaled down on scroll
+function SplitLogo({ k, filter, style }: { k: number; filter?: string; style?: MotionStyle }) {
   return (
-    <motion.div className={`absolute inset-y-0.5 inset-x-2 ${className ?? ""}`} style={style}>
+    <motion.div
+      className="absolute"
+      style={{ top: 2 * k, bottom: 2 * k, left: 8 * k, right: 8 * k, filter, ...style }}
+    >
       <motion.img
         src={LOGO_SRC}
         alt=""
@@ -65,6 +71,8 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
       const hero = anchorRef.current;
       if (!nav || !hero) return;
       const n = nav.getBoundingClientRect();
+      // image not loaded yet: only the padding has width
+      if (n.width < 40) return;
       // the navbar drops in on load, so on the first measure it is still translated off-screen; undo that offset
       const headerTop = nav.closest("header")?.getBoundingClientRect().top ?? 0;
       const h = hero.getBoundingClientRect();
@@ -85,13 +93,22 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
         endX: n.left,
         endY: n.top - headerTop,
         startScale,
+        width: n.width * startScale,
+        height: n.height * startScale,
         distance: Math.max(380, (startY - (n.top - headerTop)) * 1.3),
       });
       setReady(true);
     };
     measure();
     window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+    // the navbar logo has no width until its image loads, so re-measure once it does
+    const nav = document.getElementById("nav-logo");
+    const observer = nav ? new ResizeObserver(measure) : null;
+    if (nav) observer?.observe(nav);
+    return () => {
+      window.removeEventListener("resize", measure);
+      observer?.disconnect();
+    };
   }, [anchorRef]);
 
   const { scrollY } = useScroll();
@@ -110,7 +127,7 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
   });
   const scale = useTransform(progress, (p) => {
     const e = easeY(p);
-    return geo.startScale + (1 - geo.startScale) * e;
+    return 1 + (1 / geo.startScale - 1) * e;
   });
   const background = useTransform(progress, [0.55, 0.95], ["rgba(255,255,255,0)", "rgba(255,255,255,1)"]);
   const whiteOpacity = useTransform(progress, [0.45, 0.9], [1, 0]);
@@ -121,18 +138,24 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
 
   return (
     <motion.div
-      className="fixed top-0 left-0 z-[60] pointer-events-none rounded-lg"
-      style={{ x, y, scale, background, opacity, transformOrigin: "0 0", willChange: "transform" }}
+      className="fixed top-0 left-0 z-[60] pointer-events-none"
+      style={{
+        x,
+        y,
+        scale,
+        background,
+        opacity,
+        transformOrigin: "0 0",
+        width: geo.width,
+        height: geo.height,
+        borderRadius: 8 * geo.startScale,
+      }}
     >
-      <div className="relative">
-        <img
-          src={LOGO_SRC}
-          alt="Reggin"
-          className="h-10 px-2 py-0.5 object-contain block opacity-0"
-        />
-        <SplitLogo style={{ opacity: navyOpacity }} />
+      <div className="relative w-full h-full" role="img" aria-label="Reggin">
+        <SplitLogo k={geo.startScale} style={{ opacity: navyOpacity }} />
         <SplitLogo
-          className="[filter:brightness(0)_invert(1)_drop-shadow(0_2px_12px_rgba(0,0,0,0.55))]"
+          k={geo.startScale}
+          filter={`brightness(0) invert(1) drop-shadow(0 ${2 * geo.startScale}px ${12 * geo.startScale}px rgba(0,0,0,0.55))`}
           style={{ opacity: whiteOpacity }}
         />
       </div>
