@@ -50,11 +50,12 @@
   --icon-bg: rgba(255, 255, 255, 0.08);
   --icon-fg: #8fb4e8;
   --pill-hover-border: rgba(232, 238, 248, 0.45);
-  --shadow-hover: rgba(0, 0, 0, 0.8);
+  --shadow-hover: rgba(150, 185, 235, 0.3);
   --shadow-nav: 0 6px 18px -2px rgba(0, 0, 0, 0.7), 0 1px 0 0 rgba(255, 255, 255, 0.06);
   --shadow-panel: 0 -10px 40px -8px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06);
   --shadow-soft: 0 4px 16px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
   --brands-bg: #0b1424;
+  --brands-edge: #0b1424;
   color-scheme: dark;
 }
 
@@ -81,5 +82,6 @@
   --shadow-panel: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --brands-bg: #001835;
+  --brands-edge: transparent;
   color-scheme: light;
 }

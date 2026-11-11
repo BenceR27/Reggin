@@ -46,8 +46,8 @@ const LOOP_SECONDS = 75; // one full pass over the brand list, same pace as the 
 
 function BrandTag({ slug, name }: { slug: string; name: string }) {
   return (
-    <div className="flex flex-col items-center gap-2 px-6 cursor-pointer select-none group">
-      <div className="glass-tile w-[4.5rem] h-[4.5rem] rounded-2xl flex items-center justify-center opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200">
+    <div className="flex flex-col items-center gap-2 px-6 select-none">
+      <div className="glass-tile w-[4.5rem] h-[4.5rem] rounded-2xl flex items-center justify-center">
         <img
           src={`https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/${slug}.png`}
           alt={name}
@@ -55,7 +55,7 @@ function BrandTag({ slug, name }: { slug: string; name: string }) {
           className="relative w-12 h-12 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]"
         />
       </div>
-      <span className="text-[rgba(255,255,255,0.5)] font-semibold text-xs tracking-wider whitespace-nowrap group-hover:text-white transition-colors duration-200">
+      <span className="text-[rgba(255,255,255,0.5)] font-semibold text-xs tracking-wider whitespace-nowrap">
         {name}
       </span>
     </div>
@@ -173,6 +173,10 @@ export function BrandsSection() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] rounded-full bg-[var(--primary)] opacity-[0.12] blur-[90px]" />
         <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] rounded-full bg-[var(--secondary)] opacity-20 blur-[70px]" />
+        {/* dark mode: solid section colour at the top and bottom so it flows into the neighbouring sections */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--brands-edge)_0%,transparent_32%,transparent_68%,var(--brands-edge)_100%)]" />
+        {/* solid section colour at the top and bottom edges so it flows into the neighbouring sections */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--brands-bg)_0%,transparent_32%,transparent_68%,var(--brands-bg)_100%)]" />
       </div>
 
       <div
