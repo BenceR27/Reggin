@@ -27,10 +27,10 @@
   --font-family-alt: 'Inter', sans-serif;
 
   /* Liquid glass logo tiles (same in both themes) */
-  --logo-chip: linear-gradient(150deg, rgba(255, 255, 255, 0.42), rgba(226, 237, 252, 0.24));
-  --logo-rim: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(255, 255, 255, 0.2) 60%, rgba(255, 255, 255, 0.95) 100%);
-  --logo-glass-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -10px 18px -8px rgba(150, 190, 255, 0.4), inset 0 0 22px rgba(255, 255, 255, 0.12);
-  --logo-sheen: radial-gradient(120% 70% at 25% 0%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 60%);
+  --logo-chip: linear-gradient(150deg, rgba(255, 255, 255, 0.24), rgba(226, 237, 252, 0.12));
+  --logo-rim: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.18) 40%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0.5) 100%);
+  --logo-glass-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  --logo-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 55%);
 
   /* Dark is the default theme to avoid flashbangs*/
   --header-bg: #001835;
@@ -56,6 +56,8 @@
   --shadow-soft: 0 4px 16px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
   --brands-bg: #0b1424;
   --brands-edge: #0b1424;
+  --brands-label: rgba(255, 255, 255, 0.55);
+  --brands-glow-2: 0.2;
   color-scheme: dark;
 }
 
@@ -81,7 +83,13 @@
   --shadow-nav: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-panel: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --brands-bg: #001835;
-  --brands-edge: transparent;
+  --brands-bg: #F4F7FA;
+  --brands-edge: #F4F7FA;
+  --brands-label: rgba(0, 40, 85, 0.6);
+  --brands-glow-2: 0.06;
+  --logo-chip: linear-gradient(150deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.5));
+  --logo-rim: linear-gradient(135deg, rgba(0, 40, 85, 0.22) 0%, rgba(0, 40, 85, 0.08) 40%, rgba(0, 40, 85, 0.05) 60%, rgba(0, 40, 85, 0.18) 100%);
+  --logo-glass-shadow: 0 8px 20px -10px rgba(0, 40, 85, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  --logo-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 55%);
   color-scheme: light;
 }

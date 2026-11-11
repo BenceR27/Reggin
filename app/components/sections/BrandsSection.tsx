@@ -47,15 +47,15 @@ const LOOP_SECONDS = 75; // one full pass over the brand list, same pace as the 
 function BrandTag({ slug, name }: { slug: string; name: string }) {
   return (
     <div className="flex flex-col items-center gap-2 px-6 select-none">
-      <div className="glass-tile w-[4.5rem] h-[4.5rem] rounded-2xl flex items-center justify-center">
+      <div className="glass-tile w-20 h-20 rounded-xl flex items-center justify-center">
         <img
           src={`https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/${slug}.png`}
           alt={name}
           draggable={false}
-          className="relative w-12 h-12 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]"
+          className="relative w-14 h-14 object-contain drop-shadow-[0_2px_5px_rgba(0,0,0,0.3)]"
         />
       </div>
-      <span className="text-[rgba(255,255,255,0.5)] font-semibold text-xs tracking-wider whitespace-nowrap">
+      <span className="text-[var(--brands-label)] font-semibold text-xs tracking-wider whitespace-nowrap">
         {name}
       </span>
     </div>
@@ -126,12 +126,6 @@ export function BrandsSection() {
 
   return (
     <section className="py-20 bg-[var(--brands-bg)] overflow-hidden relative">
-      <svg width="0" height="0" className="absolute" aria-hidden focusable="false">
-        <filter id="liquid-glass" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="4" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-      </svg>
       <style>{`
         .brands-scroller { touch-action: pan-y; cursor: grab; }
         .brands-scroller:active { cursor: grabbing; }
@@ -140,10 +134,9 @@ export function BrandsSection() {
         .glass-tile {
           position: relative;
           background: var(--logo-chip);
-          -webkit-backdrop-filter: blur(14px) saturate(1.9) brightness(1.15);
-          backdrop-filter: blur(14px) saturate(1.9) brightness(1.15);
-          backdrop-filter: url(#liquid-glass) blur(6px) saturate(1.9) brightness(1.15);
-          box-shadow: var(--logo-glass-shadow);
+          -webkit-backdrop-filter: blur(12px) saturate(1.4);
+          backdrop-filter: blur(12px) saturate(1.4);
+                    box-shadow: var(--logo-glass-shadow);
         }
         /* bright refractive rim: light catches top-left and bottom-right edges */
         .glass-tile::before {
@@ -151,7 +144,7 @@ export function BrandsSection() {
           position: absolute;
           inset: 0;
           border-radius: inherit;
-          padding: 2px;
+          padding: 1px;
           background: var(--logo-rim);
           -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
           -webkit-mask-composite: xor;
@@ -172,7 +165,7 @@ export function BrandsSection() {
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] rounded-full bg-[var(--primary)] opacity-[0.12] blur-[90px]" />
-        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] rounded-full bg-[var(--secondary)] opacity-20 blur-[70px]" />
+        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] rounded-full bg-[var(--secondary)] opacity-[var(--brands-glow-2)] blur-[70px]" />
         {/* dark mode: solid section colour at the top and bottom so it flows into the neighbouring sections */}
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--brands-edge)_0%,transparent_32%,transparent_68%,var(--brands-edge)_100%)]" />
         {/* solid section colour at the top and bottom edges so it flows into the neighbouring sections */}

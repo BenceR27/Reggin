@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { NavLogo } from "./NavLogo";
 import { NavLink } from "./NavLink";
 import { NavActions } from "./NavActions";
@@ -12,11 +13,21 @@ const NAV_LINKS = [
   { label: "Kapcsolat", to: "/#kapcsolat" },
 ];
 
+// the drop-in only plays on the first load, not on every client-side navigation
+let introPlayed = false;
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [animateIn] = useState(() => !introPlayed);
+  if (typeof window !== "undefined") introPlayed = true; // never flip it during SSR
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--header-bg)] shadow-[var(--shadow-nav)]">
+    <motion.header
+      className="fixed top-0 left-0 right-0 z-50 bg-[var(--header-bg)] shadow-[var(--shadow-nav)]"
+      initial={animateIn ? { y: "-100%" } : false}
+      animate={{ y: 0 }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
+    >
       <div className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
         <NavLogo />
 
@@ -61,6 +72,6 @@ export function Navbar() {
           </div>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }
