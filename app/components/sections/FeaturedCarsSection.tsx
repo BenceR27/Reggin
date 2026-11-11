@@ -55,13 +55,13 @@ function CarCard({ car }: { car: Car }) {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="bg-white rounded-2xl overflow-hidden border border-[var(--border-color)] hover:-translate-y-1 hover:shadow-xl transition-shadow duration-300"
+      className="group bg-white rounded-2xl overflow-hidden border border-[var(--border-color)] transition-shadow duration-500 ease-out hover:shadow-[0_24px_56px_-12px_rgba(0,40,85,0.4)]"
     >
       <div className="relative h-48 bg-[var(--border-color)] overflow-hidden">
         <img
           src={car.image}
           alt={car.brand}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover blur-[0.6px] transition-[filter] duration-500 ease-out group-hover:blur-[0px]"
         />
         {car.badge && (
           <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold text-white ${BADGE_COLORS[car.badge.color]}`}>
