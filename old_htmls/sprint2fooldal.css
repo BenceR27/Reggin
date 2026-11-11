@@ -139,7 +139,7 @@ body {
 .hero {
     position: relative;
     padding-top: 64px; /* offset navbar */
-    min-height: 92vh;
+    min-height: 50vh;
     display: flex;
     align-items: center;
 }
