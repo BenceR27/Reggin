@@ -47,7 +47,7 @@ export function HeroSection({ search, onChange }: HeroSectionProps) {
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
       >
         <div className="max-w-[1280px] mx-auto px-6">
-          <div id="hero-search" className="bg-white rounded-t-2xl p-6 shadow-2xl">
+          <div id="hero-search" className="bg-[var(--surface)] rounded-t-2xl p-6 shadow-[var(--shadow-panel)]">
             <motion.p
               className="text-[var(--text-dark)] font-bold text-sm mb-3"
               initial={{ opacity: 0, y: 8 }}

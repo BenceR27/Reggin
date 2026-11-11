@@ -55,7 +55,7 @@ function CarCard({ car }: { car: Car }) {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="group bg-white rounded-2xl overflow-hidden border border-[var(--border-color)] transition-shadow duration-500 ease-out hover:shadow-[0_24px_56px_-12px_rgba(0,40,85,0.4)]"
+      className="group bg-[var(--surface)] rounded-2xl overflow-hidden border border-[var(--border-color)] transition-shadow duration-500 ease-out hover:shadow-[0_24px_56px_-12px_var(--shadow-hover)]"
     >
       <div className="relative h-48 bg-[var(--border-color)] overflow-hidden">
         <img
@@ -122,7 +122,7 @@ export function FeaturedCarsSection({ cars, pillFilter, onPillFilter }: Featured
                 className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all cursor-pointer ${
                   pillFilter === filter
                     ? "bg-[var(--secondary)] text-white border-[var(--secondary)]"
-                    : "bg-white text-[rgba(0,40,85,0.6)] border-[var(--border-input)] hover:border-[rgba(0,40,85,0.4)]"
+                    : "bg-[var(--surface)] text-[var(--text-soft)] border-[var(--border-input)] hover:border-[var(--pill-hover-border)]"
                 }`}
               >
                 {filter}
@@ -160,7 +160,7 @@ export function FeaturedCarsSection({ cars, pillFilter, onPillFilter }: Featured
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          <button className="px-8 py-3 border-2 border-[var(--secondary)] text-[var(--secondary)] rounded-xl font-semibold text-sm hover:bg-[var(--secondary)] hover:text-white transition-all cursor-pointer">
+          <button className="px-8 py-3 border-2 border-[var(--text-dark)] text-[var(--text-dark)] rounded-xl font-semibold text-sm hover:bg-[var(--secondary)] hover:border-[var(--secondary)] hover:text-white transition-all cursor-pointer">
             Összes autó megtekintése
           </button>
         </motion.div>

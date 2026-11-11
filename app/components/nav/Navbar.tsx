@@ -16,7 +16,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--secondary)] shadow-md">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--header-bg)] shadow-[var(--shadow-nav)]">
       <div className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
         <NavLogo />
 
@@ -50,7 +50,7 @@ export function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-[var(--secondary)] border-t border-white/10 px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-[var(--header-bg)] border-t border-white/10 px-6 py-4 flex flex-col gap-4">
           {NAV_LINKS.map((link) => (
             <NavLink key={link.to} to={link.to}>
               {link.label}
