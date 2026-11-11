@@ -1,12 +1,5 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-    background-color: #3b4b5e;
+    background-color: var(--bg-auth);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,13 +8,13 @@ body {
 }
 
 .modal-container {
-    background-color: #ffffff;
+    background-color: var(--white);
     width: 100%;
     max-width: 450px;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    border-top: 4px solid #13B05C;
+    border-top: 4px solid var(--primary);
 }
 
 .modal-header {
@@ -37,7 +30,7 @@ body {
 }
 
 .logo img {
-    height: 36px; 
+    height: 36px;
     width: auto;
 }
 
@@ -45,12 +38,12 @@ body {
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: #a0a5ab;
+    color: var(--text-hint);
     cursor: pointer;
 }
 
 .modal-title {
-    color: #032B5B;
+    color: var(--secondary);
     font-size: 1.8rem;
     margin-bottom: 25px;
     font-weight: 700;
@@ -62,7 +55,7 @@ body {
 
 .input-group label {
     display: block;
-    color: #6C757D;
+    color: var(--text-label);
     font-size: 0.9rem;
     margin-bottom: 8px;
     font-weight: 600;
@@ -71,16 +64,16 @@ body {
 .input-group input {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #CED4DA;
+    border: 1px solid var(--border-input);
     border-radius: 8px;
     font-size: 1rem;
-    color: #495057;
+    color: var(--text-input);
     outline: none;
     transition: border-color 0.2s;
 }
 
 .input-group input:focus {
-    border-color: #032B5B;
+    border-color: var(--secondary);
 }
 
 .forgot-password {
@@ -89,7 +82,7 @@ body {
 }
 
 .forgot-password a {
-    color: #13B05C;
+    color: var(--primary);
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
@@ -97,8 +90,8 @@ body {
 
 .submit-btn {
     width: 100%;
-    background-color: #032B5B;
-    color: white;
+    background-color: var(--secondary);
+    color: var(--white);
     border: none;
     padding: 15px;
     border-radius: 8px;
@@ -109,17 +102,17 @@ body {
 }
 
 .submit-btn:hover {
-    background-color: #021f42;
+    background-color: var(--secondary-hover);
 }
 
 .modal-footer {
     text-align: center;
-    color: #8f959d;
+    color: var(--text-subtle);
     font-size: 0.95rem;
 }
 
 .modal-footer a {
-    color: #032B5B;
+    color: var(--secondary);
     text-decoration: none;
     font-weight: 700;
 }
