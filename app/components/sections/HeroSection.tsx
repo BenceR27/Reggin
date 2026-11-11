@@ -18,9 +18,9 @@ const selectCls =
 export function HeroSection({ search, onChange }: HeroSectionProps) {
   return (
     <section className="relative min-h-[70vh] flex items-center">
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1692406069831-0bb7ea297645?w=1600&h=900&fit=crop&auto=format"
+          src="/hero.jpg"
           alt="Autószalon"
           className="w-full h-full object-cover"
         />
@@ -28,7 +28,7 @@ export function HeroSection({ search, onChange }: HeroSectionProps) {
       </div>
 
       <motion.div
-        className="absolute bottom-0 left-0 right-0"
+        className="absolute bottom-0 left-0 right-0 z-10"
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
