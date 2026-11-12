@@ -49,8 +49,11 @@ function BrandTag({ slug, name }: { slug: string; name: string }) {
     <div className="flex flex-col items-center gap-2 px-6 select-none">
       <div className="glass-tile w-20 h-20 rounded-xl flex items-center justify-center">
         <img
-          src={`https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/${slug}.png`}
+          src={`/logos/${slug}.webp`}
           alt={name}
+          width={56}
+          height={56}
+          decoding="async"
           draggable={false}
           className="relative w-14 h-14 object-contain drop-shadow-[0_2px_5px_rgba(0,0,0,0.3)]"
         />

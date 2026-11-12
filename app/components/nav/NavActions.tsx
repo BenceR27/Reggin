@@ -16,7 +16,7 @@ export function NavActions() {
       </Link>
       <Link
         to="/auto-eladas"
-        className="text-sm font-semibold text-white bg-[var(--primary)] px-4 py-2 rounded-lg hover:bg-[var(--primary-hover)] transition-colors no-underline"
+        className="text-sm font-semibold text-white bg-[var(--primary-btn)] px-4 py-2 rounded-lg hover:bg-[var(--primary-btn-hover)] transition-colors no-underline"
       >
         Autó eladása
       </Link>

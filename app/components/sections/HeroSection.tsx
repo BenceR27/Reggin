@@ -66,14 +66,14 @@ export function HeroSection() {
             <p className="text-[var(--text-dark)] font-bold text-sm mb-3">Gyors keresés</p>
             <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1.5fr_auto] gap-3 md:gap-5 items-end">
               <div>
-                <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">Márka</label>
-                <select className={selectCls} value={brand} onChange={(e) => setBrand(e.target.value)}>
+                <label htmlFor="hero-brand" className="block text-xs font-medium text-[var(--text-muted)] mb-1">Márka</label>
+                <select id="hero-brand" className={selectCls} value={brand} onChange={(e) => setBrand(e.target.value)}>
                   {BRANDS.map((b) => <option key={b}>{b}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">Üzemanyag</label>
-                <select className={selectCls} value={fuel} onChange={(e) => setFuel(e.target.value)}>
+                <label htmlFor="hero-fuel" className="block text-xs font-medium text-[var(--text-muted)] mb-1">Üzemanyag</label>
+                <select id="hero-fuel" className={selectCls} value={fuel} onChange={(e) => setFuel(e.target.value)}>
                   {FUELS.map((f) => <option key={f}>{f}</option>)}
                 </select>
               </div>
