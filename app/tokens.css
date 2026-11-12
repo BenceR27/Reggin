@@ -56,6 +56,7 @@
   --brands-bg: #0b1424;
   --brands-edge: #0b1424;
   --brands-label: rgba(255, 255, 255, 0.55);
+  --brands-line: rgba(255, 255, 255, 0.08);
   --brands-glow-2: 0.2;
   color-scheme: dark;
 }
@@ -88,6 +89,7 @@
   --brands-bg: #F4F7FA;
   --brands-edge: #F4F7FA;
   --brands-label: rgba(0, 40, 85, 0.6);
+  --brands-line: rgba(0, 40, 85, 0.1);
   --brands-glow-2: 0.06;
   --logo-chip: linear-gradient(150deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.5));
   --logo-rim: linear-gradient(135deg, rgba(0, 40, 85, 0.22) 0%, rgba(0, 40, 85, 0.08) 40%, rgba(0, 40, 85, 0.05) 60%, rgba(0, 40, 85, 0.18) 100%);
