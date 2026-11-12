@@ -21,7 +21,7 @@ const easeX = (p: number) => 0.4 * p + 0.6 * Math.pow(smooth(p), 1.25);
 
 // the logo is ~800px wide, the mark ends around x=250 and then comes brand name
 const SPLIT = "31.25%";
-const LOGO_SRC = "/regginlogo_nobg.png";
+const LOGO_SRC = "/regginlogo_nobg.webp";
 
 // two clipped copies of the same image: the mark pops in first, then the wordmark slides out from behind it
 // laid out at the hero size (`k` = hero size / navbar size) so the browser paints it sharp, then scaled down on scroll

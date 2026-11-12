@@ -1,6 +1,9 @@
 :root {
   --primary: #00A651;
   --primary-hover: #008040;
+  /* green with white text on top: 5:1 contrast (plain --primary is only 3.2:1) */
+  --primary-btn: #007a3a;
+  --primary-btn-hover: #006530;
 
   /* Backgrounds */
   --white: #ffffff;
@@ -58,6 +61,8 @@
 }
 
 :root[data-theme="light"] {
+  --primary: #007a3a;
+  --primary-hover: #006530;
   --header-bg: #002855;
   --nav-logo-bg: #ffffff;
   --footer-bg: #001835;
@@ -69,8 +74,8 @@
   --border-color: #EEF2F7;
   --border-input: #D4DCE8;
   --text-dark: #002855;
-  --text-muted: #6b7280;
-  --text-gray-400: #9ca3af;
+  --text-muted: #5b6370;
+  --text-gray-400: #606775;
   --text-soft: rgba(0, 40, 85, 0.6);
   --text-label-soft: rgba(0, 40, 85, 0.55);
   --icon-bg: rgba(0, 40, 85, 0.1);

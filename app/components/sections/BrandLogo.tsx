@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const LOGO_BASE = "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized";
+const LOGO_BASE = "/logos";
 
 // "Mercedes-Benz" -> "mercedes-benz", "Škoda" -> "skoda", "Land Rover" -> "land-rover"
 const slugify = (brand: string) =>
@@ -17,10 +17,10 @@ export function BrandLogo({ brand, size = 24 }: { brand: string; size?: number }
   if (failed) return null;
   return (
     <img
-      src={`${LOGO_BASE}/${slugify(brand)}.png`}
+      src={`${LOGO_BASE}/${slugify(brand)}.webp`}
       alt=""
       aria-hidden
-      loading="lazy"
+      decoding="async"
       width={size}
       height={size}
       className="brand-logo shrink-0 object-contain"

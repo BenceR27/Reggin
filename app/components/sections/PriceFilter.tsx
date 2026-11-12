@@ -50,9 +50,9 @@ export function PriceFilter({
         Ár (M Ft)
       </legend>
       <style>{`
-        .price-range { position: relative; height: 20px; }
+        .price-range { position: relative; height: 24px; }
         .price-range input[type=range] {
-          position: absolute; inset: 0; width: 100%; margin: 0; height: 20px;
+          position: absolute; inset: 0; width: 100%; margin: 0; height: 24px;
           background: none; pointer-events: none; -webkit-appearance: none; appearance: none;
         }
         .price-range input[type=range]::-webkit-slider-thumb {
