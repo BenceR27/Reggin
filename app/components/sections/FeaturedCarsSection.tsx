@@ -1,5 +1,6 @@
+import type { Ref } from "react";
 import { Link } from "react-router";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { Car } from "./carsData";
 import { BrandLogo } from "./BrandLogo";
 
@@ -32,20 +33,40 @@ function IconFuel() {
 }
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
-  exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.22, ease: "easeOut" } },
+  exit: { opacity: 0, transition: { duration: 0.12, ease: "easeOut" } },
 };
 
-export function CarCard({ car }: { car: Car }) {
+export function CarCard({
+  car,
+  reveal = false,
+  ref,
+}: {
+  car: Car;
+  reveal?: boolean;
+  ref?: Ref<HTMLDivElement>;
+}) {
+  const motionProps = reveal
+    ? {
+        variants: cardVariants,
+        initial: "hidden",
+        whileInView: "show",
+        viewport: { once: true, margin: "0px 0px -60px 0px" },
+      }
+    : {
+        layout: "position" as const,
+        transition: { layout: { duration: 0.2, ease: "easeOut" as const } },
+        variants: cardVariants,
+        initial: "hidden",
+        animate: "show",
+        exit: "exit",
+      };
   return (
     <motion.div
-      layout
+      ref={ref}
       key={car.id}
-      variants={cardVariants}
-      initial="hidden"
-      animate="show"
-      exit="exit"
+      {...motionProps}
       className="group bg-[var(--surface)] rounded-2xl overflow-hidden border border-[var(--border-color)] transition-shadow duration-500 ease-out hover:shadow-[0_24px_56px_-12px_var(--shadow-hover)]"
     >
       <div className="relative h-48 bg-[var(--border-color)] overflow-hidden">
@@ -115,16 +136,11 @@ export function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) {
             Nincs találat a megadott szűrőkre.
           </motion.p>
         ) : (
-          <motion.div
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            <AnimatePresence mode="popLayout">
-              {cars.map((car) => (
-                <CarCard key={car.id} car={car} />
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cars.map((car) => (
+              <CarCard key={car.id} car={car} reveal />
+            ))}
+          </div>
         )}
 
         <motion.div
