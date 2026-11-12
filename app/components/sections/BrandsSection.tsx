@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import "./BrandsSection.css";
 
 const BRANDS = [
   { slug: "abarth",        name: "Abarth" },
@@ -41,29 +42,26 @@ const BRANDS = [
   { slug: "volvo",         name: "Volvo" },
 ];
 
-const TRACK = [...BRANDS, ...BRANDS];
-const LOOP_SECONDS = 75;
+const SILHOUETTE = new Set(["toyota", "audi", "volkswagen", "cupra", "jaguar", "nissan"]);
 
-function BrandTag({ slug, name }: { slug: string; name: string }) {
+function Item({ slug, name, hidden }: { slug: string; name: string; hidden?: boolean }) {
   return (
-    <div className="flex flex-col items-center gap-2 px-6 select-none">
-      <div className="glass-tile w-20 h-20 rounded-xl flex items-center justify-center">
-        <img
-          src={`/logos/${slug}.webp`}
-          alt={name}
-          width={56}
-          height={56}
-          decoding="async"
-          draggable={false}
-          className="relative w-14 h-14 object-contain drop-shadow-[0_2px_5px_rgba(0,0,0,0.3)]"
-        />
-      </div>
-      <span className="text-[var(--brands-label)] font-semibold text-xs tracking-wider whitespace-nowrap">
-        {name}
-      </span>
-    </div>
+    <li className={`brand-item${SILHOUETTE.has(slug) ? " brand-silhouette" : ""}`} aria-hidden={hidden || undefined}>
+      <img
+        src={`/logos/${slug}.webp`}
+        alt={hidden ? "" : name}
+        width={72}
+        height={72}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+      />
+      <span>{name}</span>
+    </li>
   );
 }
+
+const LOOP_SECONDS = 70;
 
 export function BrandsSection() {
   const track = useRef<HTMLDivElement>(null);
@@ -79,7 +77,6 @@ export function BrandsSection() {
     if (!el) return;
     let raf = 0;
     let last = performance.now();
-
     const tick = (now: number) => {
       const dt = Math.min(64, now - last) / 1000;
       last = now;
@@ -113,8 +110,7 @@ export function BrandsSection() {
     const now = performance.now();
     const dx = e.clientX - lastX.current;
     offset.current -= dx;
-    const dtMs = Math.max(1, now - lastT.current);
-    velocity.current = -(dx / dtMs) * 1000 * 0.6 + velocity.current * 0.4;
+    velocity.current = -(dx / Math.max(1, now - lastT.current)) * 1000 * 0.6 + velocity.current * 0.4;
     lastX.current = e.clientX;
     lastT.current = now;
   };
@@ -128,69 +124,34 @@ export function BrandsSection() {
   };
 
   return (
-    <section className="py-20 bg-[var(--brands-bg)] overflow-hidden relative">
-      <style>{`
-        .brands-scroller { touch-action: pan-y; cursor: grab; }
-        .brands-scroller:active { cursor: grabbing; }
-
-        .glass-tile {
-          position: relative;
-          background: var(--logo-chip);
-          -webkit-backdrop-filter: blur(12px) saturate(1.4);
-          backdrop-filter: blur(12px) saturate(1.4);
-                    box-shadow: var(--logo-glass-shadow);
-        }
-        .glass-tile::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          padding: 1px;
-          background: var(--logo-rim);
-          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-          -webkit-mask-composite: xor;
-          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-          pointer-events: none;
-        }
-        .glass-tile::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background: var(--logo-sheen);
-          pointer-events: none;
-        }
-      `}</style>
-
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] rounded-full bg-[var(--primary)] opacity-[0.12] blur-[90px]" />
-        <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] rounded-full bg-[var(--secondary)] opacity-[var(--brands-glow-2)] blur-[70px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--brands-edge)_0%,transparent_32%,transparent_68%,var(--brands-edge)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--brands-bg)_0%,transparent_32%,transparent_68%,var(--brands-bg)_100%)]" />
+    <section className="brands relative overflow-hidden bg-[var(--brands-bg)] py-20">
+      <div className="brands-head">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--primary)]">Márkáink</span>
+          <h2 className="mt-2 text-3xl font-black text-[var(--text-dark)] sm:text-4xl">
+            Minden népszerű márka egy helyen
+          </h2>
+        </div>
+        <p className="text-sm font-semibold text-[var(--brands-label)]">{BRANDS.length}+ gyártó kínálatából</p>
       </div>
 
       <div
-        className="relative"
-        style={{
-          maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-        }}
+        className="brands-strip"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onPointerEnter={(e) => { if (e.pointerType === "mouse") hovering.current = true; }}
+        onPointerLeave={(e) => { if (e.pointerType === "mouse") hovering.current = false; }}
+        onWheel={onWheel}
       >
-        <div
-          className="brands-scroller select-none"
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={endDrag}
-          onPointerCancel={endDrag}
-          onPointerEnter={(e) => { if (e.pointerType === "mouse") hovering.current = true; }}
-          onPointerLeave={(e) => { if (e.pointerType === "mouse") hovering.current = false; }}
-          onWheel={onWheel}
-        >
-          <div ref={track} className="flex w-max gap-3 will-change-transform">
-            {TRACK.map((brand, i) => (
-              <BrandTag key={i} slug={brand.slug} name={brand.name} />
-            ))}
-          </div>
+        <div ref={track} className="brands-track">
+          <ul className="brands-list">
+            {BRANDS.map((b) => <Item key={b.slug} {...b} />)}
+          </ul>
+          <ul className="brands-list" aria-hidden="true">
+            {BRANDS.map((b) => <Item key={b.slug} {...b} hidden />)}
+          </ul>
         </div>
       </div>
     </section>
