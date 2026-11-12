@@ -111,7 +111,7 @@ export function CarCard({
 
 export function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) {
   return (
-    <section id="autok" className="py-20 bg-[var(--bg-light)]">
+    <section id="autok" className="relative z-20 py-20 bg-[var(--bg-light)]">
       <div className="max-w-[1280px] mx-auto px-6">
         <motion.div
           className="flex flex-wrap justify-between items-end gap-4 mb-8"

@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <Page>
       <HeroSection />
-      <Suspense fallback={<div aria-hidden className="min-h-screen" />}>
+      <Suspense fallback={<div aria-hidden className="relative z-20 min-h-screen bg-[var(--bg-light)]" />}>
         <FeaturedCarsSection cars={CARS} />
         <BrandsSection />
         <ContactSection />
