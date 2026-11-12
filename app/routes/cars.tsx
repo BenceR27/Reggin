@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import type { Route } from "./+types/cars";
 import { Page } from "../components/layout";
 import { CarCard } from "../components/sections/FeaturedCarsSection";
@@ -236,13 +236,13 @@ export default function Cars() {
               {filtered.length === 0 ? (
                 <p className="text-center py-16 text-[var(--text-muted)]">Nincs találat a megadott szűrőkre.</p>
               ) : (
-                <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="relative grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   <AnimatePresence mode="popLayout">
                     {visible.map((car) => (
                       <CarCard key={car.id} car={car} />
                     ))}
                   </AnimatePresence>
-                </motion.div>
+                </div>
               )}
 
               {pages > 1 && <Pagination page={page} pages={pages} onPage={goToPage} />}

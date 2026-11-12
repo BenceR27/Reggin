@@ -26,7 +26,8 @@ export default function Home() {
   return (
     <Page>
       <HeroSection />
-      <Suspense fallback={null}>
+      {/* reserve space while the chunks load so the page doesn't jump when they mount */}
+      <Suspense fallback={<div aria-hidden className="min-h-screen" />}>
         <FeaturedCarsSection cars={CARS} />
         <BrandsSection />
         <ContactSection />
