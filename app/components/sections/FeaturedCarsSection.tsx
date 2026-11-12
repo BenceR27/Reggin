@@ -1,20 +1,11 @@
+import { Link } from "react-router";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import type { Car, BadgeColor } from "./carsData";
-
-export const PILL_FILTERS = ["Összes", "Dízel", "Benzin", "Hibrid", "Elektromos"] as const;
-export type PillFilter = (typeof PILL_FILTERS)[number];
+import type { Car } from "./carsData";
+import { BrandLogo } from "./BrandLogo";
 
 interface FeaturedCarsSectionProps {
   cars: Car[];
-  pillFilter: PillFilter;
-  onPillFilter: (f: PillFilter) => void;
 }
-
-const BADGE_COLORS: Record<BadgeColor, string> = {
-  green: "bg-[var(--primary)]",
-  navy: "bg-[var(--secondary)]",
-  orange: "bg-[var(--badge-orange)]",
-};
 
 function IconCalendar() {
   return (
@@ -46,7 +37,7 @@ const cardVariants: Variants = {
   exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
 };
 
-function CarCard({ car }: { car: Car }) {
+export function CarCard({ car }: { car: Car }) {
   return (
     <motion.div
       layout
@@ -63,16 +54,14 @@ function CarCard({ car }: { car: Car }) {
           alt={car.brand}
           className="w-full h-full object-cover blur-[0.6px] transition-[filter] duration-500 ease-out group-hover:blur-[0px]"
         />
-        {car.badge && (
-          <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold text-white ${BADGE_COLORS[car.badge.color]}`}>
-            {car.badge.text}
-          </span>
-        )}
       </div>
       <div className="p-5">
-        <div className="mb-3">
-          <p className="text-[var(--primary)] text-xs font-bold uppercase tracking-wide">{car.brand}</p>
-          <h3 className="text-[var(--text-dark)] text-lg font-black leading-tight">{car.model}</h3>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <div>
+            <p className="text-[var(--primary)] text-xs font-bold uppercase tracking-wide">{car.brand}</p>
+            <h3 className="text-[var(--text-dark)] text-lg font-black leading-tight">{car.model}</h3>
+          </div>
+          <BrandLogo brand={car.brand} size={56} />
         </div>
         <div className="flex gap-3 mb-4">
           <span className="flex items-center gap-1 text-xs text-[var(--text-muted)] bg-[var(--bg-light)] px-2 py-1 rounded-md font-medium">
@@ -99,7 +88,7 @@ function CarCard({ car }: { car: Car }) {
   );
 }
 
-export function FeaturedCarsSection({ cars, pillFilter, onPillFilter }: FeaturedCarsSectionProps) {
+export function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) {
   return (
     <section id="autok" className="py-20 bg-[var(--bg-light)]">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -113,21 +102,6 @@ export function FeaturedCarsSection({ cars, pillFilter, onPillFilter }: Featured
           <div>
             <p className="text-[var(--primary)] font-bold text-sm uppercase tracking-wider mb-2">Kínálatunk</p>
             <h2 className="text-4xl font-black text-[var(--text-dark)]">Kiemelt ajánlataink</h2>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {PILL_FILTERS.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => onPillFilter(filter)}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all cursor-pointer ${
-                  pillFilter === filter
-                    ? "bg-[var(--secondary)] text-white border-[var(--secondary)]"
-                    : "bg-[var(--surface)] text-[var(--text-soft)] border-[var(--border-input)] hover:border-[var(--pill-hover-border)]"
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
           </div>
         </motion.div>
 
@@ -160,9 +134,12 @@ export function FeaturedCarsSection({ cars, pillFilter, onPillFilter }: Featured
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          <button className="px-8 py-3 border-2 border-[var(--text-dark)] text-[var(--text-dark)] rounded-xl font-semibold text-sm hover:bg-[var(--secondary)] hover:border-[var(--secondary)] hover:text-white transition-all cursor-pointer">
+          <Link
+            to="/cars"
+            className="inline-block px-8 py-3 border-2 border-[var(--text-dark)] text-[var(--text-dark)] rounded-xl font-semibold text-sm no-underline hover:bg-[var(--secondary)] hover:border-[var(--secondary)] hover:text-white transition-all"
+          >
             Összes autó megtekintése
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>

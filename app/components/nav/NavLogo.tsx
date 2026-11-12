@@ -11,7 +11,7 @@ export function NavLogo() {
         <img
           src="/regginlogo_nobg.png"
           alt="Reggin logo"
-          className="h-10 bg-white px-2 py-0.5 rounded-lg object-contain block"
+          className="reggin-navy h-10 bg-[var(--nav-logo-bg)] px-2 py-0.5 rounded-lg object-contain block"
         />
       </Link>
     </motion.div>

@@ -6,6 +6,16 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+html:not([data-theme="light"]) .brand-logo,
+.brand-selected .brand-logo {
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+html:not([data-theme="light"]) .reggin-navy {
+  filter: brightness(0) invert(1);
+}
+
 html,
 body {
   background-color: var(--page-bg);

@@ -23,6 +23,7 @@
   --logo-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 55%);
 
   --header-bg: #001835;
+  --nav-logo-bg: transparent;
   --footer-bg: #000f22;
   --secondary: #0d3b73;
   --secondary-hover: #0a2f5c;
@@ -52,6 +53,7 @@
 
 :root[data-theme="light"] {
   --header-bg: #002855;
+  --nav-logo-bg: #ffffff;
   --footer-bg: #001835;
   --secondary: #002855;
   --secondary-hover: #021f42;
