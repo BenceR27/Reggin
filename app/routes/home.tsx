@@ -27,7 +27,7 @@ export default function Home() {
     <Page>
       <HeroSection />
       {/* reserve space while the chunks load so the page doesn't jump when they mount */}
-      <Suspense fallback={<div aria-hidden className="min-h-screen" />}>
+      <Suspense fallback={<div aria-hidden className="relative z-20 min-h-screen bg-[var(--bg-light)]" />}>
         <FeaturedCarsSection cars={CARS} />
         <BrandsSection />
         <ContactSection />
