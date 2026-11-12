@@ -87,14 +87,21 @@ export const CARS: Car[] = [
   },
 ];
 
+export const ALL_BRANDS = "Minden márka";
+export const ALL_FUELS = "Minden";
+export const ALL_PRICES = "Minden";
+
+// only brands that actually appear in the dataset
 export const BRANDS = [
-  "Minden márka", "BMW", "Mercedes-Benz", "Audi",
-  "Volkswagen", "Toyota", "Skoda", "Ford", "Opel", "Renault", "Peugeot",
+  ALL_BRANDS,
+  ...[...new Set(CARS.map((c) => c.brand))].sort((a, b) => a.localeCompare(b)),
 ];
 
 export const FUELS = ["Minden", "Benzin", "Dízel", "Hibrid", "Elektromos"];
 
-export const PRICES = ["Minden", "5M alatt", "5–10M Ft", "10–15M Ft", "15M felett"];
+// slider bounds in M Ft, derived from the data (rounded up to a whole million)
+export const PRICE_MIN = 0;
+export const PRICE_MAX = Math.ceil(Math.max(...CARS.map((c) => c.priceM)));
 
 export function matchesPrice(priceM: number, range: string): boolean {
   if (range === "Minden") return true;

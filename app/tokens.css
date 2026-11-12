@@ -1,13 +1,10 @@
 :root {
-  /* Brand */
   --primary: #00A651;
   --primary-hover: #008040;
 
   /* Backgrounds */
   --white: #ffffff;
   --bg-auth: #3b4b5e;
-
-  /* Borders */
 
   /* Text */
   --text-label: #6C757D;
@@ -20,13 +17,11 @@
   --check-icon: #52d087;
   --badge-orange: #f97316;
 
-  /* Theme-aware surfaces & text */
-
   /* Typography */
   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-family-alt: 'Inter', sans-serif;
 
-  /* Liquid glass logo tiles (same in both themes) */
+  /* Liquid glass logo tiles */
   --logo-chip: linear-gradient(150deg, rgba(255, 255, 255, 0.24), rgba(226, 237, 252, 0.12));
   --logo-rim: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.18) 40%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0.5) 100%);
   --logo-glass-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.6);
@@ -34,6 +29,7 @@
 
   /* Dark is the default theme to avoid flashbangs*/
   --header-bg: #001835;
+  --nav-logo-bg: transparent;
   --footer-bg: #000f22;
   --secondary: #0d3b73;
   --secondary-hover: #0a2f5c;
@@ -63,6 +59,7 @@
 
 :root[data-theme="light"] {
   --header-bg: #002855;
+  --nav-logo-bg: #ffffff;
   --footer-bg: #001835;
   --secondary: #002855;
   --secondary-hover: #021f42;

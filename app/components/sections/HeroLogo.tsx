@@ -1,5 +1,5 @@
-import { useEffect, useState, type RefObject } from "react";
-import { motion, type MotionStyle, useScroll, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef, useState, type RefObject } from "react";
+import { animate, motion, type MotionStyle, useMotionValue, useScroll, useTransform } from "framer-motion";
 import { logoProgress } from "../nav/logoProgress";
 
 interface Geo {
@@ -19,16 +19,26 @@ const smooth = (p: number) => p * p * (3 - 2 * p);
 const easeY = (p: number) => 0.5 * p + 0.5 * smooth(p);
 const easeX = (p: number) => 0.4 * p + 0.6 * Math.pow(smooth(p), 1.25);
 
-// the logo is ~800px wide; the mark ends around x=250 and the wordmark starts after it
+// the logo is ~800px wide, the mark ends around x=250 and then comes brand name
 const SPLIT = "31.25%";
 const LOGO_SRC = "/regginlogo_nobg.png";
 
 // two clipped copies of the same image: the mark pops in first, then the wordmark slides out from behind it
 // laid out at the hero size (`k` = hero size / navbar size) so the browser paints it sharp, then scaled down on scroll
-function SplitLogo({ k, filter, style }: { k: number; filter?: string; style?: MotionStyle }) {
+function SplitLogo({
+  k,
+  filter,
+  className,
+  style,
+}: {
+  k: number;
+  filter?: string;
+  className?: string;
+  style?: MotionStyle;
+}) {
   return (
     <motion.div
-      className="absolute"
+      className={`absolute ${className ?? ""}`}
       style={{ top: 2 * k, bottom: 2 * k, left: 8 * k, right: 8 * k, filter, ...style }}
     >
       <motion.img
@@ -82,7 +92,6 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
       const cx = vw / 2;
       const visibleH = Math.min(h.height, window.innerHeight - (h.top + scrollY));
       const searchBoxH = (document.getElementById("hero-search")?.offsetHeight ?? 130);
-      // the navbar (64px) now overlays the top of the image, so centre in the free space between it and the search panel
       const navH = 64;
       const cy = h.top + scrollY + navH + (visibleH - navH - searchBoxH) / 2;
       const startX = cx - (n.width * startScale) / 2;
@@ -112,8 +121,51 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
   }, [anchorRef]);
 
   const { scrollY } = useScroll();
-  const rawProgress = useTransform(scrollY, (v) => Math.min(1, Math.max(0, v / geo.distance)));
-  const progress = useSpring(rawProgress, { stiffness: 45, damping: 15, mass: 1, restDelta: 0.0005 });
+  const progress = useMotionValue(0);
+  const dim = useMotionValue(0);
+  const target = useRef(0);
+  const anim = useRef<ReturnType<typeof animate> | null>(null);
+  const dimAnim = useRef<ReturnType<typeof animate> | null>(null);
+
+  useEffect(() => {
+    progress.set(0);
+    dim.set(0);
+    target.current = 0;
+    let holding = true;
+
+    const showScrim = () => {
+      dimAnim.current?.stop();
+      dimAnim.current = animate(dim, 1, { duration: 0.4 });
+    };
+    const update = (v: number) => {
+      const t = v > 40 ? 1 : 0;
+      if (holding) {
+        if (t === 1) showScrim();
+        return;
+      }
+      if (t === target.current) return;
+      target.current = t;
+      anim.current?.stop();
+      anim.current = animate(progress, t, { duration: 0.9, ease: [0.45, 0, 0.2, 1] });
+      if (t === 0) {
+        dimAnim.current?.stop();
+        dim.set(0);
+      }
+    };
+
+    if (scrollY.get() > 40) showScrim();
+    const timer = window.setTimeout(() => {
+      holding = false;
+      update(scrollY.get());
+    }, 1500);
+    const unsub = scrollY.on("change", update);
+    return () => {
+      window.clearTimeout(timer);
+      unsub();
+      anim.current?.stop();
+      dimAnim.current?.stop();
+    };
+  }, [scrollY, progress, dim]);
 
   useEffect(() => progress.on("change", (v) => logoProgress.set(Math.min(1, Math.max(0, v)))), [progress]);
 
@@ -129,30 +181,38 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
     const e = easeY(p);
     return 1 + (1 / geo.startScale - 1) * e;
   });
-  const background = useTransform(progress, [0.55, 0.95], ["rgba(255,255,255,0)", "rgba(255,255,255,1)"]);
+  const backdropOpacity = useTransform(progress, [0.55, 0.95], [0, 1]);
   const whiteOpacity = useTransform(progress, [0.45, 0.9], [1, 0]);
   const navyOpacity = useTransform(progress, [0.45, 0.9], [0, 1]);
   const opacity = useTransform(progress, (p) => (p >= 0.995 ? 0 : 1));
+  const scrimOpacity = useTransform([progress, dim], ([p, d]: number[]) => d * (1 - Math.min(1, p / 0.6)));
 
   if (!ready) return null;
 
   return (
+    <>
+    <motion.div
+      className="fixed inset-0 z-[55] pointer-events-none bg-[rgba(0,24,53,0.78)]"
+      style={{ opacity: scrimOpacity }}
+    />
     <motion.div
       className="fixed top-0 left-0 z-[60] pointer-events-none"
       style={{
         x,
         y,
         scale,
-        background,
         opacity,
         transformOrigin: "0 0",
         width: geo.width,
         height: geo.height,
-        borderRadius: 8 * geo.startScale,
       }}
     >
+      <motion.div
+        className="absolute inset-0 bg-[var(--nav-logo-bg)]"
+        style={{ opacity: backdropOpacity, borderRadius: 8 * geo.startScale }}
+      />
       <div className="relative w-full h-full" role="img" aria-label="Reggin">
-        <SplitLogo k={geo.startScale} style={{ opacity: navyOpacity }} />
+        <SplitLogo k={geo.startScale} className="reggin-navy" style={{ opacity: navyOpacity }} />
         <SplitLogo
           k={geo.startScale}
           filter={`brightness(0) invert(1) drop-shadow(0 ${2 * geo.startScale}px ${12 * geo.startScale}px rgba(0,0,0,0.55))`}
@@ -160,5 +220,6 @@ export function HeroLogo({ anchorRef }: { anchorRef: RefObject<HTMLElement | nul
         />
       </div>
     </motion.div>
+    </>
   );
 }

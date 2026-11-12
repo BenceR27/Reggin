@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { motion } from "framer-motion";
 import { NavLogo } from "./NavLogo";
 import { NavLink } from "./NavLink";
@@ -6,18 +7,57 @@ import { NavActions } from "./NavActions";
 
 const NAV_LINKS = [
   { label: "Főoldal",   to: "/" },
-  { label: "Autóink",   to: "/#autok" },
-  { label: "Rólunk",    to: "/#rolunk" },
+  { label: "Autóink",   to: "/cars" },
   { label: "Importálás", to: "/importalas" },
   { label: "Tárolás",   to: "/tarolas" },
   { label: "Kapcsolat", to: "/#kapcsolat" },
 ];
 
-// the drop-in only plays on the first load, not on every client-side navigation
 let introPlayed = false;
+
+const SECTION_IDS = NAV_LINKS.filter((l) => l.to.startsWith("/#")).map((l) => l.to.slice(2));
+
+function useActiveSection(enabled: boolean) {
+  const [active, setActive] = useState("");
+  useEffect(() => {
+    if (!enabled) {
+      setActive("");
+      return;
+    }
+    const update = () => {
+      const line = 64 + 80;
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      let current = "";
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) current = id;
+      }
+      if (atBottom) {
+        const last = [...SECTION_IDS].reverse().find((id) => document.getElementById(id));
+        if (last) current = last;
+      }
+      setActive(current);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [enabled]);
+  return active;
+}
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { pathname } = useLocation();
+  const activeSection = useActiveSection(pathname === "/");
+  const isActive = (to: string) => {
+    if (to === "/") return pathname === "/" && activeSection === "";
+    if (to.startsWith("/#")) return pathname === "/" && activeSection === to.slice(2);
+    return undefined;
+  };
   const [animateIn] = useState(() => !introPlayed);
   if (typeof window !== "undefined") introPlayed = true; // never flip it during SSR
 
@@ -33,7 +73,7 @@ export function Navbar() {
 
         <nav className="hidden md:flex gap-8">
           {NAV_LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to}>
+            <NavLink key={link.to} to={link.to} active={isActive(link.to)}>
               {link.label}
             </NavLink>
           ))}
@@ -63,7 +103,7 @@ export function Navbar() {
       {mobileOpen && (
         <div className="md:hidden bg-[var(--header-bg)] border-t border-white/10 px-6 py-4 flex flex-col gap-4">
           {NAV_LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to}>
+            <NavLink key={link.to} to={link.to} active={isActive(link.to)}>
               {link.label}
             </NavLink>
           ))}
