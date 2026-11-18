@@ -128,6 +128,17 @@ export function currentMode(): Mode {
   return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
 }
 
+/** Switches between the light and dark base theme and applies the colours saved for it. */
+export function setMode(mode: Mode) {
+  const root = document.documentElement;
+  if (mode === "light") root.setAttribute("data-theme", "light");
+  else root.removeAttribute("data-theme");
+  try {
+    localStorage.setItem("theme", mode);
+  } catch {}
+  applyCustomTheme();
+}
+
 function read<T>(key: string): Record<Mode, T> {
   try {
     return JSON.parse(localStorage.getItem(key) ?? "{}");
