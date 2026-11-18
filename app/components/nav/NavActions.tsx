@@ -1,10 +1,24 @@
 import { Link } from "react-router";
 import { ThemeToggle } from "./ThemeToggle";
+import { useAuth } from "../../lib/auth";
 
 export function NavActions() {
+  const { user, logout } = useAuth();
   return (
     <div className="flex items-center gap-3">
       <ThemeToggle />
+      {user ? (
+        <div className="flex items-center gap-2 text-sm font-medium text-white/80">
+          <span className="hidden sm:inline">{user.displayName}</span>
+          <button
+            type="button"
+            onClick={() => logout()}
+            className="border border-white/20 px-4 py-2 rounded-lg hover:text-white hover:border-white/40 transition-colors cursor-pointer"
+          >
+            Kilépés
+          </button>
+        </div>
+      ) : (
       <Link
         to="/belepes"
         className="flex items-center gap-2 text-sm font-medium text-white/80 border border-white/20 px-4 py-2 rounded-lg hover:text-white hover:border-white/40 transition-colors no-underline"
@@ -14,6 +28,7 @@ export function NavActions() {
         </svg>
         Bejelentkezés
       </Link>
+      )}
       <Link
         to="/auto-eladas"
         className="text-sm font-semibold text-white bg-[var(--primary-btn)] px-4 py-2 rounded-lg hover:bg-[var(--primary-btn-hover)] transition-colors no-underline"

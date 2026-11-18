@@ -6,8 +6,9 @@ import { Page } from "../components/layout";
 import { CarCard } from "../components/sections/FeaturedCarsSection";
 import { BrandLogo } from "../components/sections/BrandLogo";
 import { PriceFilter } from "../components/sections/PriceFilter";
+import { fetchCars } from "../lib/api";
 import {
-  CARS,
+  type Car,
   BRANDS,
   FUELS,
   ALL_BRANDS,
@@ -140,7 +141,12 @@ function Pagination({
   );
 }
 
-export default function Cars() {
+export async function clientLoader() {
+  return { cars: await fetchCars() };
+}
+
+export default function Cars({ loaderData }: Route.ComponentProps) {
+  const CARS = loaderData.cars;
   const [params, setParams] = useSearchParams();
   const brand = params.get("brand") ?? ALL_BRANDS;
   const fuel = params.get("fuel") ?? ALL_FUELS;
@@ -167,7 +173,7 @@ export default function Cars() {
     const inPrice = CARS.filter((c) => c.priceM >= minPrice && c.priceM <= maxPrice);
     const brandPool = inPrice.filter((c) => fuel === ALL_FUELS || c.fuel === fuel);
     const fuelPool = inPrice.filter((c) => brand === ALL_BRANDS || c.brand === brand);
-    const tally = (cars: typeof CARS, key: "brand" | "fuel", all: string) => {
+    const tally = (cars: Car[], key: "brand" | "fuel", all: string) => {
       const out: Record<string, number> = { [all]: cars.length };
       for (const c of cars) out[c[key]] = (out[c[key]] ?? 0) + 1;
       return out;

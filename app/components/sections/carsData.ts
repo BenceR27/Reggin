@@ -93,13 +93,13 @@ export const ALL_PRICES = "Minden";
 
 export const BRANDS = [
   ALL_BRANDS,
-  ...[...new Set(CARS.map((c) => c.brand))].sort((a, b) => a.localeCompare(b)),
+  ...["Audi", "BMW", "Mercedes-Benz", "Skoda", "Tesla", "Toyota", "Volkswagen", "Volvo"],
 ];
 
 export const FUELS = ["Minden", "Benzin", "Dízel", "Hibrid", "Elektromos"];
 
 export const PRICE_MIN = 0;
-export const PRICE_MAX = Math.ceil(Math.max(...CARS.map((c) => c.priceM)));
+export const PRICE_MAX = 20;
 
 export function matchesPrice(priceM: number, range: string): boolean {
   if (range === "Minden") return true;
@@ -108,4 +108,32 @@ export function matchesPrice(priceM: number, range: string): boolean {
   if (range === "10–15M Ft") return priceM >= 10 && priceM < 15;
   if (range === "15M felett") return priceM >= 15;
   return true;
+}
+
+export interface CarDto {
+  id: number;
+  image: string;
+  badge: { text: string; color: BadgeColor } | null;
+  brand: string;
+  model: string;
+  year: number;
+  km: number;
+  fuel: FuelType;
+  priceHuf: number;
+}
+
+export function toCar(dto: CarDto): Car {
+  const priceM = dto.priceHuf / 1_000_000;
+  return {
+    id: dto.id,
+    image: dto.image,
+    badge: dto.badge ?? undefined,
+    brand: dto.brand,
+    model: dto.model,
+    year: dto.year,
+    km: `${dto.km.toLocaleString("hu-HU")} km`,
+    fuel: dto.fuel,
+    priceLabel: `${priceM.toFixed(1).replace(".", ",")} M Ft`,
+    priceM,
+  };
 }

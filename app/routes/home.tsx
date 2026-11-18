@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import type { Route } from "./+types/home";
 import { Page } from "../components/layout";
 import { HeroSection } from "../components/sections/HeroSection";
-import { CARS } from "../components/sections/carsData";
+import { fetchCars } from "../lib/api";
 
 const FeaturedCarsSection = lazy(() =>
   import("../components/sections/FeaturedCarsSection").then((m) => ({ default: m.FeaturedCarsSection })),
@@ -21,12 +21,16 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
+export async function clientLoader() {
+  return { cars: await fetchCars() };
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <Page>
       <HeroSection />
       <Suspense fallback={<div aria-hidden className="relative z-20 min-h-screen bg-[var(--bg-light)]" />}>
-        <FeaturedCarsSection cars={CARS} />
+        <FeaturedCarsSection cars={loaderData.cars.slice(0, 6)} />
         <BrandsSection />
         <ContactSection />
       </Suspense>

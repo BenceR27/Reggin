@@ -11,6 +11,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 import type { Route } from "./+types/root";
 import "@fontsource-variable/inter/opsz.css";
 import "./app.css";
+import { AuthProvider } from "./lib/auth";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preload", href: "/hero.jpg", as: "image", fetchPriority: "high" },
@@ -42,7 +43,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
