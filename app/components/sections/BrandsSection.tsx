@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import "./BrandsSection.css";
+import { SILHOUETTE } from "./BrandLogo";
 
 const BRANDS = [
   { slug: "abarth",        name: "Abarth" },
@@ -41,8 +42,6 @@ const BRANDS = [
   { slug: "volkswagen",    name: "Volkswagen" },
   { slug: "volvo",         name: "Volvo" },
 ];
-
-const SILHOUETTE = new Set(["toyota", "audi", "volkswagen", "cupra", "jaguar", "nissan"]);
 
 function Item({ slug, name, hidden }: { slug: string; name: string; hidden?: boolean }) {
   return (
