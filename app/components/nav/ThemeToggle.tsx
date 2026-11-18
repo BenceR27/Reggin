@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { applyCustomTheme } from "../../lib/theme";
 
 type Theme = "light" | "dark";
 
@@ -11,6 +12,7 @@ function apply(theme: Theme) {
   const root = document.documentElement;
   if (theme === "light") root.setAttribute("data-theme", "light");
   else root.removeAttribute("data-theme");
+  applyCustomTheme();
   try {
     localStorage.setItem("theme", theme);
   } catch {}

@@ -25,7 +25,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";if(t==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}`,
+            __html: `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";if(t==="light")document.documentElement.setAttribute("data-theme","light");var v=JSON.parse(localStorage.getItem("theme-vars")||"{}")[t==="light"?"light":"dark"];if(v)for(var k in v)document.documentElement.style.setProperty(k,v[k])}catch(e){}`,
           }}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

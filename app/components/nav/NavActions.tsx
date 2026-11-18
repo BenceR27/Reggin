@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { ThemeToggle } from "./ThemeToggle";
+import { ThemeCustomizer } from "./ThemeCustomizer";
 import { useAuth } from "../../lib/auth";
 
 export function NavActions() {
@@ -7,6 +8,7 @@ export function NavActions() {
   return (
     <div className="flex items-center gap-3">
       <ThemeToggle />
+      <ThemeCustomizer />
       {user ? (
         <div className="flex items-center gap-2 text-sm font-medium text-white/80">
           <span className="hidden sm:inline">{user.displayName}</span>
